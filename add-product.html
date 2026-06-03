@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enter Product — Maison</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F7F3EE;
+      --sand: #E8DDD1;
+      --clay: #C4A882;
+      --bark: #7A5C3E;
+      --ink: #1E1A17;
+      --muted: #8C7D70;
+      --white: #FFFFFF;
+      --radius: 4px;
+      --green: #4A7C59;
+      --green-light: #EBF4EE;
+      --red: #9B4040;
+      --red-light: #FAEAEA;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--sand);
+      padding: 0 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      background: var(--white);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--clay); }
+
+    .back-btn {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--sand);
+      padding: 9px 20px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover {
+      color: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .back-btn svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      padding: 4rem 2.5rem 2.5rem;
+      border-bottom: 1px solid var(--sand);
+      background: var(--white);
+    }
+
+    .page-header-inner {
+      max-width: 720px;
+    }
+
+    .page-tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--clay);
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .page-title em {
+      font-style: italic;
+      color: var(--clay);
+    }
+
+    .page-subtitle {
+      margin-top: 0.75rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      line-height: 1.8;
+    }
+
+    /* ── Form wrapper ── */
+    .form-wrap {
+      padding: 3rem 2.5rem 4rem;
+      max-width: 760px;
+    }
+
+    /* ── Field groups ── */
+    .field-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .field-group.full {
+      grid-template-columns: 1fr;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field.span-2 {
+      grid-column: span 2;
+    }
+
+    label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--bark);
+      font-weight: 500;
+    }
+
+    label .req {
+      color: var(--clay);
+      margin-left: 2px;
+    }
+
+    .field-hint {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      margin-top: -4px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="url"],
+    textarea,
+    select {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--ink);
+      background: var(--white);
+      border: 1px solid var(--sand);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    input[type="url"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--clay);
+      box-shadow: 0 0 0 3px rgba(196,168,130,0.15);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: var(--sand);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+      line-height: 1.6;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238C7D70' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    /* ── Divider ── */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--sand);
+      margin: 2rem 0;
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── Submit area ── */
+    .submit-area {
+      margin-top: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .submit-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--ink);
+      color: var(--white);
+      border: none;
+      padding: 12px 32px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 400;
+      transition: background 0.2s, opacity 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 160px;
+      justify-content: center;
+    }
+
+    .submit-btn:hover:not(:disabled) { background: var(--bark); }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .submit-btn .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+
+    .submit-btn.loading .spinner { display: block; }
+    .submit-btn.loading .btn-label { opacity: 0.7; }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .cancel-link {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .cancel-link:hover { color: var(--ink); }
+
+    /* ── Toast / status messages ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--ink);
+      color: var(--white);
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 100;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: calc(100vw - 3rem);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast.success { background: var(--green); }
+    .toast.error   { background: var(--red); }
+
+    .toast svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    /* ── Success overlay ── */
+    .success-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(247,243,238,0.96);
+      z-index: 50;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .success-overlay.show { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .success-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .success-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--green);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+    }
+
+    .success-msg {
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .success-countdown {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--clay);
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--sand);
+    }
+
+    footer p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      header { padding: 0 1.25rem; }
+      .page-header { padding: 2rem 1.25rem 1.5rem; }
+      .form-wrap { padding: 2rem 1.25rem 3rem; }
+      .field-group { grid-template-columns: 1fr; }
+      .field.span-2 { grid-column: span 1; }
+      footer { padding: 1.5rem 1.25rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+      .submit-area { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <a class="logo" href="index.html">Maison<span>.</span></a>
+    <a class="back-btn" href="index.html">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Shop
+    </a>
+  </header>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <span class="page-tag">Product Management</span>
+      <h1 class="page-title">Enter a <em>new product.</em></h1>
+      <p class="page-subtitle">Fill in the details below and your product will be added to the collection sheet.</p>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="form-wrap">
+
+    <p class="section-label">Core Details</p>
+
+    <div class="field-group">
+      <div class="field">
+        <label for="field-id">ID <span class="req">*</span></label>
+        <input type="text" id="field-id" name="id" placeholder="e.g. prod-009" required />
+        <span class="field-hint">Unique identifier for this product</span>
+      </div>
+      <div class="field">
+        <label for="field-tag">Category / Tag <span class="req">*</span></label>
+        <input type="text" id="field-tag" name="tag" placeholder="e.g. Textiles" required />
+        <span class="field-hint">Used for filter buttons on the shop page</span>
+      </div>
+    </div>
+
+    <div class="field-group full">
+      <div class="field">
+        <label for="field-name">Product Name <span class="req">*</span></label>
+        <input type="text" id="field-name" name="name" placeholder="e.g. Linen Throw Blanket" required />
+      </div>
+    </div>
+
+    <div class="field-group full">
+      <div class="field">
+        <label for="field-desc">Description <span class="req">*</span></label>
+        <textarea id="field-desc" name="desc" placeholder="A short, evocative description of the product…" required></textarea>
+        <span class="field-hint">Displayed beneath the product name on the card</span>
+      </div>
+    </div>
+
+    <hr class="section-divider" />
+    <p class="section-label">Pricing &amp; Media</p>
+
+    <div class="field-group">
+      <div class="field">
+        <label for="field-price">Price <span class="req">*</span></label>
+        <input type="text" id="field-price" name="price" placeholder="e.g. $48.00" required />
+        <span class="field-hint">Include currency symbol (e.g. $48.00)</span>
+      </div>
+      <div class="field">
+        <label for="field-img">Image URL <span class="req">*</span></label>
+        <input type="url" id="field-img" name="img" placeholder="https://…" required />
+        <span class="field-hint">Direct link to product image (4:3 ratio recommended)</span>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="submit-area">
+      <button class="submit-btn" id="submit-btn" type="button">
+        <div class="spinner"></div>
+        <span class="btn-label">Submit Product</span>
+      </button>
+      <a class="cancel-link" href="index.html">Cancel</a>
+    </div>
+
+  </div><!-- /form-wrap -->
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Maison. All rights reserved.</p>
+    <p>Designed with care &mdash; made to last.</p>
+  </footer>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast">
+    <svg id="toast-icon" viewBox="0 0 24 24"></svg>
+    <span id="toast-msg"></span>
+  </div>
+
+  <!-- Success overlay -->
+  <div class="success-overlay" id="success-overlay">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2 class="success-title">Product added.</h2>
+    <p class="success-msg">Your product has been submitted successfully<br>and will appear in the shop once the sheet refreshes.</p>
+    <p class="success-countdown" id="countdown-msg">Returning to shop in 3…</p>
+  </div>
+
+  <script>
+    // ── CONFIG ────────────────────────────────────────────────
+    const WEB_APP_URL = https://script.google.com/macros/s/AKfycbxVZm61pXe9BFy5bripOay9Vj9JTbxbm9I8_x6-2EUmIe8VoDHhHeTy-n2zLOxLJ1ajiw/exec
+    // ─────────────────────────────────────────────────────────
+
+    // Field names must match the CSV column headers used in index.html / Google Sheet
+    const FIELDS = ["id", "tag", "name", "desc", "price", "img"];
+
+    const submitBtn = document.getElementById("submit-btn");
+    const toast     = document.getElementById("toast");
+    const toastMsg  = document.getElementById("toast-msg");
+    const toastIcon = document.getElementById("toast-icon");
+    const overlay   = document.getElementById("success-overlay");
+    const countdownEl = document.getElementById("countdown-msg");
+
+    /* ── Toast helper ── */
+    let toastTimer;
+    function showToast(msg, type = "default") {
+      clearTimeout(toastTimer);
+      toastMsg.textContent = msg;
+      toast.className = "toast " + type;
+
+      if (type === "success") {
+        toastIcon.innerHTML = `<polyline points="20 6 9 17 4 12"/>`;
+      } else if (type === "error") {
+        toastIcon.innerHTML = `<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>`;
+      } else {
+        toastIcon.innerHTML = `<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>`;
+      }
+
+      toast.classList.add("show");
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 3800);
+    }
+
+    /* ── Validate ── */
+    function validate() {
+      for (const id of FIELDS) {
+        const el = document.getElementById("field-" + id);
+        if (el && el.hasAttribute("required") && !el.value.trim()) {
+          el.focus();
+          showToast(`Please fill in the "${el.previousElementSibling?.textContent?.replace("*","").trim() || id}" field.`, "error");
+          return false;
+        }
+      }
+      return true;
+    }
+
+    /* ── Collect form data ── */
+    function collectData() {
+      const params = new URLSearchParams();
+      for (const id of FIELDS) {
+        const el = document.getElementById("field-" + id);
+        if (el) params.append(id, el.value.trim());
+      }
+      return params;
+    }
+
+    /* ── Success flow ── */
+    function showSuccess() {
+      overlay.classList.add("show");
+      let remaining = 3;
+      countdownEl.textContent = `Returning to shop in ${remaining}…`;
+
+      const tick = setInterval(() => {
+        remaining--;
+        if (remaining <= 0) {
+          clearInterval(tick);
+          window.location.href = "index.html";
+        } else {
+          countdownEl.textContent = `Returning to shop in ${remaining}…`;
+        }
+      }, 1000);
+    }
+
+    /* ── Submit ── */
+    submitBtn.addEventListener("click", async () => {
+      if (!validate()) return;
+
+      if (WEB_APP_URL === "https://script.google.com/macros/s/AKfycbzPQh-fS_lBmV2L2oDayWLLGeeaD_TmkCrz0MTZjGhfbnVSBYtTl6FX7pqIysr6jlxu/exec") {
+        showToast("Please set your Google Apps Script URL in the script config.", "error");
+        return;
+      }
+
+      // Loading state
+      submitBtn.disabled = true;
+      submitBtn.classList.add("loading");
+      submitBtn.querySelector(".btn-label").textContent = "Submitting…";
+
+      try {
+        const params = collectData();
+        const url = `${WEB_APP_URL}?${params.toString()}`;
+
+        const res = await fetch(url, { method: "GET", mode: "no-cors" });
+        // With no-cors we can't read the response body, so we treat reaching here as success
+        showSuccess();
+      } catch (err) {
+        console.error("Submission error:", err);
+        showToast("Submission failed. Please check the Web App URL and try again.", "error");
+        submitBtn.disabled = false;
+        submitBtn.classList.remove("loading");
+        submitBtn.querySelector(".btn-label").textContent = "Submit Product";
+      }
+    });
+  </script>
+</body>
+</html>
